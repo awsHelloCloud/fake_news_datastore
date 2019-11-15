@@ -3,8 +3,9 @@ package com.awscloudhello.fakenewsdatastore.repository;
 import com.awscloudhello.fakenewsdatastore.model.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    Optional<Article> findTopByTextLike(String text);
+
+    List<Article> findByTextLike(String text);
 }

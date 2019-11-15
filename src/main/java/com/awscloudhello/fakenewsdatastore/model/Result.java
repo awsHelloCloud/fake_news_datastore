@@ -5,9 +5,15 @@ import lombok.Data;
 @Data
 public class Result {
 
-    private String isFakeNews;
+    private String articleId;
 
-    public Result(boolean result){
-        this.isFakeNews = String.valueOf(result);
+    private boolean isFakeNews;
+
+    public Result(){
+    }
+
+    public Result(String articleId){
+        this.isFakeNews = true;
+        this.articleId = articleId;
     }
 }

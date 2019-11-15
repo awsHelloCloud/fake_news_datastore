@@ -2,11 +2,11 @@ package com.awscloudhello.fakenewsdatastore.controller;
 
 import com.awscloudhello.fakenewsdatastore.model.Result;
 import com.awscloudhello.fakenewsdatastore.service.FakeNewsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 public class FakeNewsController {
 
@@ -18,9 +18,11 @@ public class FakeNewsController {
     }
 
 
-    @GetMapping("/isFakeNews")
+    @PostMapping("/isFakeNews")
     public Result isFakeNews(@RequestParam(value = "text") String text){
-        boolean result = service.isFakeNews(text);
-        return new Result(result);
+        log.info("text: " + text);
+        Result result =  service.isFakeNews(text);
+        log.info("result: " + result.getArticleId());
+        return result;
     }
 }
