@@ -12,10 +12,10 @@ services:
       - mysql # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
       - SERVER_PORT=3001
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWD=${MYSQL_PASSWD}
+      - MYSQL_USER=fake_news
+      - MYSQL_PASSWD=fake_news
       - DB_URL=mysql
-      - MYSQL_INITDB=${MYSQL_INITDB}
+      - MYSQL_INITDB=fake_news
     networks:
       - backend
 
@@ -23,15 +23,15 @@ services:
     image: mysql:5.7.28
     restart: always
     environment:
-      - MYSQL_DATABASE=${MYSQL_INITDB}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWD}
+      - MYSQL_DATABASE=fake_news
+      - MYSQL_USER=fake_news
+      - MYSQL_PASSWORD=fake_news
+      - MYSQL_ROOT_PASSWORD=fake_news
     ports:
       - 3306:3306
       - 33060:33060
     volumes:
-      - ${MYSQL_DIR}/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     stdin_open: true
     tty: true
     networks:
