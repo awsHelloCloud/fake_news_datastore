@@ -6,12 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8090:8090" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "3001:3001" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
     depends_on: 
       - mysql # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
-      - SERVER_PORT=8090
+      - SERVER_PORT=3001
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWD=${MYSQL_PASSWD}
       - DB_URL=mysql
