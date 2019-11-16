@@ -12,11 +12,13 @@ services:
       - mysql # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
       - SERVER_PORT=8090
-      - MYSQL_USER=${MYSQL_INITDB}
+      - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWD=${MYSQL_PASSWD}
       - DB_URL=mysql
+      - MYSQL_INITDB=${MYSQL_INITDB}
     networks:
       - backend
+
   mysql:
     image: mysql:5.7.28
     restart: always
