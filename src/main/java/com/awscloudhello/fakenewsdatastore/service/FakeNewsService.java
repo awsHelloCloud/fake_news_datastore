@@ -14,21 +14,21 @@ import java.util.stream.Collectors;
 @Service
 public class FakeNewsService {
 
-    private static final String RUMOR = "RUMOR";
+    public static final String RUMOR = "RUMOR";
 
     private ArticleRepository articleRepository;
     private ArticleReplyRepository articleReplyRepository;
+    private QueryStringService stringService;
 
     @Autowired
-    public FakeNewsService(ArticleRepository articleRepository, ArticleReplyRepository articleReplyRepository){
+    public FakeNewsService(ArticleRepository articleRepository, ArticleReplyRepository articleReplyRepository, QueryStringService stringService){
         this.articleRepository = articleRepository;
         this.articleReplyRepository = articleReplyRepository;
+        this.stringService = stringService;
     }
 
     public Result isFakeNews(String text){
-        String[] subStrings = text.split("\\s+");
-        Arrays.sort(subStrings, Comparator.comparingInt(String::length).reversed());
-        List<String> stringList = Arrays.asList(subStrings);
+        List<String> stringList = stringService.getQueryStringList(text);
         List<Article> articleList = articleRepository.findByTextLike("%" + stringList.get(0) + "%");
         List<Article> filteredArticles = articleList.stream()
                 .filter(article -> this.isTheArticle(article, stringList))
