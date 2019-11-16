@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  api_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    depends_on: 
+      - mysql # This service depends on mysql. Start that first.
+    environment: # Pass environment variables to the service
+      - SERVER_PORT=8090
+      - MYSQL_USER=${MYSQL_INITDB}
+      - MYSQL_PASSWD=${MYSQL_PASSWD}
+      - DB_URL=mysql
+    networks:
+      - backend
+  mysql:
+    image: mysql:5.7.28
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${MYSQL_INITDB}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWD}
+    ports:
+      - 3306:3306
+      - 33060:33060
+    volumes:
+      - ${MYSQL_DIR}/mysql:/var/lib/mysql
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+
+networks:
+  backend:
