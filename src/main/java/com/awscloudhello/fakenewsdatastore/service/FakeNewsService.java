@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class FakeNewsService {
 
     public static final String RUMOR = "RUMOR";
+    public static final String NOT_RUMOR = "NOT_RUMOR";
 
     private ArticleRepository articleRepository;
     private ArticleReplyRepository articleReplyRepository;
@@ -38,13 +39,21 @@ public class FakeNewsService {
             List<String> articleIds = filteredArticles.stream().map(Article::getId).collect(Collectors.toList());
             List<ArticleReply> articleReplies = articleReplyRepository.findAllByArticleIdIn(articleIds);
             Map<String, List<ArticleReply>> articleReplyMap = this.getArticleReplyMap(articleReplies);
+            boolean isReal = false;
+            String articleId = null;
             for(Map.Entry<String, List<ArticleReply>> entry : articleReplyMap.entrySet()){
+                articleId = entry.getKey();
+                isReal = false;
                 for(ArticleReply reply : entry.getValue()){
                     if(RUMOR.equals(reply.getReplyType())){
-                        return new Result(entry.getKey());
+                        return new Result(entry.getKey(), true);
+                    }
+                    if(NOT_RUMOR.equals(reply.getReplyType())){
+                        isReal = true;
                     }
                 }
             }
+            return new Result(articleId, isReal ? false : null);
         }
         return new Result();
     }

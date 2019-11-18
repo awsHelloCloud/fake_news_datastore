@@ -7,13 +7,13 @@ public class Result {
 
     private String articleId;
 
-    private boolean isFakeNews;
+    private Boolean fakeNews;
 
     public Result(){
     }
 
-    public Result(String articleId){
-        this.isFakeNews = true;
+    public Result(String articleId, Boolean fakeNews){
+        this.fakeNews = fakeNews;
         this.articleId = articleId;
     }
 }
